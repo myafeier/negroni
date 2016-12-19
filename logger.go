@@ -27,13 +27,13 @@ func NewLogger() *Logger {
 
 func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	start := time.Now()
-	log.Printf("%s: Started %s %s for %s\n", time.Now().Format("2006-01-02 15:04:05"), r.Method, r.RequestURI, r.RemoteAddr)
+	log.Printf("Started %s %s for %s\n", r.Method, r.RequestURI, r.RemoteAddr)
 
 	next(rw, r)
 
 
 	res := rw.(ResponseWriter)
-	content := fmt.Sprintf("%s: Completed %s %s in %v\n", time.Now().Format("2006-01-02 15:04:05"), r.RequestURI, http.StatusText(res.Status()), time.Since(start))
+	content := fmt.Sprintf("Completed %s %s in %v\n", r.RequestURI, http.StatusText(res.Status()), time.Since(start))
 
 	switch res.Status() {
 	case 200, 201, 202:
